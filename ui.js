@@ -26,12 +26,6 @@
       const reelRow = document.createElement("div");
       reelRow.classList.add("reels");
 
-      // Row label for debug
-      const rowLabel = document.createElement("span");
-      rowLabel.className = "row-label";
-      rowLabel.textContent = "[Row 1]";
-      reelRow.appendChild(rowLabel);
-
       for (let i = 1; i <= 3; i++) {
         const span = document.createElement("span");
         span.id = `reel${i}1`; // FIRST ROW STARTS AT 1
