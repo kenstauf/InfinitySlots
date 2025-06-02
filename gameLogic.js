@@ -191,40 +191,28 @@ function fillRows() {
 
 //-----------------------------------------------------------------
 
-//ANIMATES SPIN
-function doSpin(frame = 0) {
+//ANIMATE SPIN
+function doSpin() {
   const columns = 3;
   const reelLength = spinResult[0].length;
-  const totalFrames = reelLength - rowCount + 1;
-  const startDelay = 10;
-  const endDelay = 500;
-  const symbolHeight = 62;
+  const maxOffset = (reelLength - rowCount) * symbolHeight;
+  const scrollDuration = 1600; // ms (1.6 seconds, adjust as needed)
 
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      const maxOffset = (reelLength - rowCount) * symbolHeight;
-      const isFinalFrame = frame >= totalFrames - 1;
-      // The offset increases as the animation progresses (scrolls DOWN)
-      const offset = -frame * symbolHeight;
-      stack.style.transition = 'transform 0.14s cubic-bezier(.25,.8,.5,1)';
-      stack.style.transform = `translateY(${isFinalFrame ? -maxOffset : offset}px)`;
+      stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
+      stack.style.transform = `translateY(${-maxOffset}px)`;
     }
   }
-
-  if (frame < totalFrames - 1) {
-    const progress = frame / (totalFrames - 1);
-    const ease = Math.pow(progress, 3); // Try 3 or 4!
-    const delay = startDelay + ((endDelay - startDelay) * ease);
-    setTimeout(() => doSpin(frame + 1), delay);
-  } else {
-    setTimeout(() => {
-      checkWin();
-      isSpinning = false;
-      lostWagerSaver = false;
-    }, 150);
-  }
+  // After scrollDuration, run checkWin etc.
+  setTimeout(() => {
+    checkWin();
+    isSpinning = false;
+    lostWagerSaver = false;
+  }, scrollDuration + 150);
 }
+
 	
 // -----------------------------------------------------------------
 
