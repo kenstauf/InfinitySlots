@@ -10,6 +10,7 @@ window.onload = function() {
   document.getElementById("spinButton").onclick = spin;
   document.getElementById("buyRowBtn").onclick = buyRow;
   document.getElementById("infoBox")?.addEventListener("click", toggleInfo);
+  document.addEventListener('DOMContentLoaded', loadGame);
 
   if (document.getElementById("increaseBetBtn"))
     document.getElementById("increaseBetBtn").onclick = increaseBet;
