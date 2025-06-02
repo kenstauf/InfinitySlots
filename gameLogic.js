@@ -195,20 +195,20 @@ function fillRows() {
 function doSpin(frame = 0) {
   const columns = 3;
   const reelLength = spinResult[0].length;
-  const totalFrames = reelLength - rowCount + 1; // Number of animation steps
+  const totalFrames = reelLength - rowCount + 1;
   const startDelay = 10;
   const endDelay = 500;
-  const symbolHeight = 62; // Make sure this matches your CSS
+  const symbolHeight = 62;
 
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      // Always scroll so that the last rowCount symbols are visible at the end!
       const maxOffset = (reelLength - rowCount) * symbolHeight;
       const isFinalFrame = frame >= totalFrames - 1;
-      const offset = isFinalFrame ? -maxOffset : -frame * symbolHeight;
+      // The offset increases as the animation progresses (scrolls DOWN)
+      const offset = -frame * symbolHeight;
       stack.style.transition = 'transform 0.14s cubic-bezier(.25,.8,.5,1)';
-      stack.style.transform = `translateY(${offset}px)`;
+      stack.style.transform = `translateY(${isFinalFrame ? -maxOffset : offset}px)`;
     }
   }
 
@@ -225,9 +225,6 @@ function doSpin(frame = 0) {
     }, 150);
   }
 }
-
-
-
 	
 // -----------------------------------------------------------------
 
