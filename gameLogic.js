@@ -197,6 +197,8 @@ function doSpin() {
   const reelLength = spinResult[0].length;
   const maxOffset = (reelLength - rowCount) * symbolHeight;
   const scrollDuration = 1600; // ms (1.6 seconds, adjust as needed)
+  const symbolHeight = 62; // or whatever height your symbols are in px
+
 
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
