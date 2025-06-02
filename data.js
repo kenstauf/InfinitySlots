@@ -82,10 +82,10 @@ const rarityMultipliers = {
     let coins = 200;
     let rowCount = 1;
     let bet = 10;
-    let minorWin = 1.75;
-    let majorWin = 2.75;
-    let megaWwin = 5; //ADD THIS LATER
-    let gigaWin = 7; //ADD THIS LATER
+    let minorWin = .60; //TWO MATCHES
+    let majorWin = 2; //THREE MATCHES
+    let megaWin = 3.5; //FOUR MATCHES
+    let gigaWin = 10; //FIVE MATCHES
     const baseMinBet = 10;
     let minBet = baseMinBet;
     const maxBet = 10000000000000;
@@ -100,9 +100,12 @@ const rarityMultipliers = {
     const verySlowSpins = 2;
     let spinResult = [];
     let perRowBet = bet / rowCount;
+    let lostWagerSaver = false;
+    const columns = 5;
     let currentSpinMinorWins = 0;
     let currentSpinMajorWins = 0;
-    let lostWagerSaver = false;
+    let currentSpinMegaWins = 0;
+    let currentSpinGigaWins = 0;
 
 
 
