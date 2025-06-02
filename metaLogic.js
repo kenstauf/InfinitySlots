@@ -35,7 +35,6 @@ function clickFreeMoneyBtn(tier) {
   //COIN LOGIC
   coins += tierButtonEarnings[tier]; // Add coins for that tier!
   updateCoinDisplay();
-  checkForMinBet();
     if (progressBarFill) {
       progressBarFill.style.transition = 'none';
       progressBarFill.style.width = '0%';
@@ -62,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btn1) {
     btn1.addEventListener('click', function() {
       clickFreeMoneyBtn(1);
+      checkforMinBet()
     });
   }
 });
