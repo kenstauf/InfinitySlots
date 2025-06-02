@@ -296,6 +296,7 @@ function checkWin() {
   } else {
     if (totalWin > 0) {
       coins += totalWin;
+      coins += totalWinnings;
       updateCoinDisplay();
       // Show user total winnings, as well as major and minor win count
       let resultMsg = `
