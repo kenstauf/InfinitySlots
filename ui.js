@@ -21,22 +21,34 @@
 
 // ------------------------------------------------------
 
-// CREATE INITIAL ARRAY FOR ROWS
-    function initRow() {
-      const reelRow = document.createElement("div");
-      reelRow.classList.add("reels");
+// INITIALIZE REEL COLUMNS ON PAGE LOAD
+function initReels() {
+  const container = document.getElementById("reelContainer");
+  container.innerHTML = ""; // Clear anything existing
 
-      for (let i = 1; i <= 3; i++) {
-        const span = document.createElement("span");
-        span.id = `reel${i}1`; // FIRST ROW STARTS AT 1
-        span.textContent = "❓";
-        span.className = "symbol";
-        reelRow.appendChild(span);
-      }
+  for (let col = 0; col < 3; col++) {
+    const reel = document.createElement("div");
+    reel.className = "reels";
+    reel.id = `reel${col}`;
 
-      const container = document.getElementById("reelContainer");
-      container.insertBefore(reelRow, container.firstChild);
+    const stack = document.createElement("div");
+    stack.className = "reels-stack";
+
+    // Fill with initial "❓" symbols for each rowCount
+    for (let row = 0; row < rowCount; row++) {
+      const span = document.createElement("span");
+      span.className = "symbol";
+      span.textContent = "❓";
+      stack.appendChild(span);
     }
+
+    reel.appendChild(stack);
+    container.appendChild(reel);
+    // Set CSS variable for initial row count
+    reel.style.setProperty('--rows', rowCount);
+  }
+}
+
 
 
 // ------------------------------------------------------
