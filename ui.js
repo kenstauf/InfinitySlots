@@ -62,15 +62,25 @@ function initReels() {
 // ------------------------------------------------------
 
 //INCREASE AND DECREASE BET
-  function increaseBet(amount = 1) {
-    bet = Math.min(bet + amount, maxBet);
+function increaseBet(amount = 1) {
+  if (bet < coins) {
+    bet = Math.min(bet + amount, maxBet); 
     updateSpinButtonLabel();
+  } else {
+    showGameAlert("Not enough coins to bet more!");
   }
+}
 
-  function decreaseBet(amount = 1) {
-    bet = Math.max(bet - amount, minBet);
-    updateSpinButtonLabel();
+
+function decreaseBet(amount = 1) { 
+  if (bet > minBet) { 
+    bet = Math.max(bet - amount, minBet); 
+    updateSpinButtonLabel();               
+  } else {
+    showGameAlert("Can't decrease bet amount below minimum!"); 
   }
+}
+
 
 // ------------------------------------------------------
 
