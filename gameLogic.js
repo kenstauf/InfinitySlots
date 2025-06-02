@@ -156,7 +156,6 @@ function validateSpin() {
 //FILL REELS WITH ICONS FROM DATA ARRAY IN ORDER TO SCROLL THEM DOWNWARD
 
 function fillRows() {
-  const columns = 3;
   for (let col = 0; col < columns; col++) {
     // Find the reel and its stack
     const reel = document.getElementById(`reel${col}`);
@@ -185,7 +184,6 @@ function fillRows() {
 
 //SPIN ANIMATION FUNCTION, CALLS CHECKWIN AFTER FINISHING
 function doSpin() {
-  const columns = 3;
   const reelLength = spinResult[0].length;
   const symbolHeight = 62;
   const baseScrollDuration = 1200; // ms
@@ -231,56 +229,56 @@ function calculateRowPayout(symbols, rowIndex) {
   const counts = {};
   for (const sym of symbols) counts[sym] = (counts[sym] || 0) + 1;
 
+  // Find the symbol with the most matches
+  let maxCount = 0;
+  let matchSymbol = null;
+  for (const [sym, count] of Object.entries(counts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      matchSymbol = sym;
+    }
+  }
+
   let payout = 0;
+  let winType = null;
+  let rarity = "common";
+  if (uncommonFruits.includes(matchSymbol)) rarity = "uncommon";
+  else if (rareFruits.includes(matchSymbol)) rarity = "rare";
+  else if (epicFruits.includes(matchSymbol)) rarity = "epic";
+  else if (legendaryFruits.includes(matchSymbol)) rarity = "legendary";
 
-  // Major win: all three match
-  if (counts[symbols[0]] === 3) {
-    let matchSymbol = symbols[0];
-    let rarity = "common";
-    if (uncommonFruits.includes(matchSymbol)) rarity = "uncommon";
-    else if (rareFruits.includes(matchSymbol)) rarity = "rare";
-    else if (epicFruits.includes(matchSymbol)) rarity = "epic";
-    else if (legendaryFruits.includes(matchSymbol)) rarity = "legendary";
-
+  // Highest to lowest: giga (5), mega (4), major (3), minor (2)
+  if (maxCount === 5) {
+    payout = Math.floor(perRowBet * gigaWin * (rarityMultipliers[rarity] || 1));
+    winType = "Giga";
+    currentSpinGigaWins++;
+  } else if (maxCount === 4) {
+    payout = Math.floor(perRowBet * megaWin * (rarityMultipliers[rarity] || 1));
+    winType = "Mega";
+    currentSpinMegaWins++;
+  } else if (maxCount === 3) {
     payout = Math.floor(perRowBet * majorWin * (rarityMultipliers[rarity] || 1));
+    winType = "Major";
     currentSpinMajorWins++;
-
-    console.log(`Row ${rowIndex + 1}: Major win! ${matchSymbol} (${rarity}), payout: ${payout}`);
-  }
-  // Minor win: any two match
-  else if (
-    symbols[0] === symbols[1] ||
-    symbols[1] === symbols[2] ||
-    symbols[0] === symbols[2]
-  ) {
-    // Find which symbol matched
-    let matchSymbol;
-    if (symbols[0] === symbols[1]) matchSymbol = symbols[0];
-    else if (symbols[1] === symbols[2]) matchSymbol = symbols[1];
-    else matchSymbol = symbols[0];
-
-    let rarity = "common";
-    if (uncommonFruits.includes(matchSymbol)) rarity = "uncommon";
-    else if (rareFruits.includes(matchSymbol)) rarity = "rare";
-    else if (epicFruits.includes(matchSymbol)) rarity = "epic";
-    else if (legendaryFruits.includes(matchSymbol)) rarity = "legendary";
-
+  } else if (maxCount === 2) {
     payout = Math.floor(perRowBet * minorWin * (rarityMultipliers[rarity] || 1));
+    winType = "Minor";
     currentSpinMinorWins++;
-    console.log(`Row ${rowIndex + 1}: Minor win! payout: ${payout}`);
   }
-  // No win: payout = 0
+  // No win (all different): payout remains 0
+
+  if (winType) {
+    console.log(`Row ${rowIndex + 1}: ${winType} win! ${matchSymbol} (${rarity}), payout: ${payout}`);
+  }
 
   return payout;
 }
-
 
 // ---------------------------------------------------------------
 
 // CHECK WIN COUNT FUNCTION
 
 function checkWin() {
-  const columns = 3;
   let totalWin = 0;
   let visibleSymbols = [];
 
@@ -312,6 +310,8 @@ function checkWin() {
       let resultMsg = `
         Minor Wins: ${currentSpinMinorWins}<br>
         Major Wins: ${currentSpinMajorWins}<br>
+        Mega Wins: ${currentSpinMegaWins}<br>
+        Giga Wins: ${currentSpinGigaWins}<br>
         You won ${totalWin} coins!`;
       showGameAlert(resultMsg.trim());
 
@@ -334,6 +334,8 @@ function checkWin() {
       let resultMsg = `
         Minor Wins: ${currentSpinMinorWins}<br>
         Major Wins: ${currentSpinMajorWins}<br>
+        Mega Wins: ${currentSpinMegaWins}<br>
+        Giga Wins: ${currentSpinGigaWins}<br>
         You won ${totalWin} coins!`;
       showGameAlert(resultMsg.trim());
 
@@ -350,7 +352,6 @@ function checkWin() {
 // SPIN FUNCTION
 function spin() {
   // Constants
-  const columns = 3;
   const rowAnimationRows = Math.floor(rowCount / 3) + 30;
   const reelLength = rowCount + rowAnimationRows;
 
@@ -365,8 +366,10 @@ function spin() {
   coins -= bet;
   updateCoinDisplay();
   isSpinning = true;
-  currentSpinMajorWins = 0;
   currentSpinMinorWins = 0;
+  currentSpinMajorWins = 0;
+  currentSpinMegaWins = 0;
+  currentSpinGigaWins = 0;
 
   // Build a weighted pool of fruits, using your helper function
   const fruitPool = buildWeightedFruitPool(reelLength);
