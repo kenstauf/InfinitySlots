@@ -168,8 +168,8 @@ function doSpin(frame = 0) {
   const columns = 3;
   const reelLength = spinResult[0].length;
   const totalFrames = reelLength - rowCount + 1; // Animate until last full visible window
-  const startDelay = 50;
-  const endDelay = 300;
+  const startDelay = 10;
+  const endDelay = 500;
 
   for (let col = 0; col < columns; col++) {
     for (let row = 0; row < rowCount; row++) {
