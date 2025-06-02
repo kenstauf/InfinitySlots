@@ -376,7 +376,7 @@ function spin() {
   }
 
   // For debugging, log the new spinResult array
-  console.log("Spin Result Array:", spinResult);
+  console.log("spin v 1.01: Spin Result Array:", spinResult);
 
   fillRows();
   doSpin();
