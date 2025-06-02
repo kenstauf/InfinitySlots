@@ -174,14 +174,16 @@ function doSpin(frame = 0) {
 
 
   if (frame < totalFrames - 1) {
-    const delay = startDelay + ((endDelay - startDelay) * (frame / (totalFrames - 1)));
+    const progress = frame / (totalFrames - 1);
+    const ease = Math.pow(progress, 3); // Try 3 or 4!
+    const delay = startDelay + ((endDelay - startDelay) * ease);
     setTimeout(() => doSpin(frame + 1), delay);
   } else {
     setTimeout(() => {
       checkWin();
-      isSpinning = false; 
+      isSpinning = false;
       lostWagerSaver = false;
-    }, 150); // Delay in milliseconds before checking win
+    }, 150);
   }
 }
 
