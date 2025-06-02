@@ -221,6 +221,7 @@ function doSpin() {
 //CHECK PAYOUT FOR ANY GIVEN ROW
 
 function calculateRowPayout(symbols, rowIndex) {
+  perRowBet = bet / rowCount;
   // Count occurrences
   const counts = {};
   for (const sym of symbols) counts[sym] = (counts[sym] || 0) + 1;
