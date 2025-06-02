@@ -97,7 +97,6 @@ const rarityMultipliers = {
     const slowspins = 4;
     const verySlowSpins = 2;
     let spinResult = [];
-    let rowAnimationRows = Math.floor(rowCount / 3) + 10;
     let perRowBet = bet / rowCount;
     let currentSpinMinorWins = 0;
     let currentSpinMajorWins = 0;
