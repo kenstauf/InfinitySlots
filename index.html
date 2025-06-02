@@ -169,12 +169,17 @@
         <div class="reels" id="reel1"><div class="reels-stack"></div></div>
      <div class="reels" id="reel2"><div class="reels-stack"></div></div>
   </div>
+<!-- BET INCREMENT BUTTONS -->
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;">
+      <button class="btn" onclick="decreaseBet(10)">-10</button>
+      <button class="btn" onclick="decreaseBet(5)">-5</button>
+      <button class="btn" onclick="decreaseBet()">⬇️</button>
+      <button class="btn" id="spinButton" onclick="spin()">Spin (Bet: 10)</button>
+      <button class="btn" onclick="increaseBet()">⬆️</button>
+      <button class="btn" onclick="increaseBet(5)">+5</button>
+      <button class="btn" onclick="increaseBet(10)">+10</button>
+    </div>
 
-      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;">
-        <button class="btn" onclick="decreaseBet()">⬇️</button>
-        <button class="btn" id="spinButton" onclick="spin()">Spin (Bet: 10)</button>
-        <button class="btn" onclick="increaseBet()">⬆️</button>
-      </div>
       <div style="margin-top: 15px;">
         <button class="btn" id="buyRowBtn" onclick="buyRow()">Buy Row (10 coins)</button>
       </div>
