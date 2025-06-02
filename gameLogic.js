@@ -200,11 +200,13 @@ function doSpin(frame = 0) {
   const endDelay = 500;
   const symbolHeight = 62; // Make sure this matches your CSS
 
-  // For each column, animate the stack up by frame * symbolHeight
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      const offset = -frame * symbolHeight;
+      const maxOffset = (reelLength - rowCount) * symbolHeight;
+      // Clamp frame to avoid going past the last frame
+      const currentFrame = Math.min(frame, totalFrames - 1);
+      const offset = -currentFrame * symbolHeight;
       stack.style.transition = 'transform 0.14s cubic-bezier(.25,.8,.5,1)';
       stack.style.transform = `translateY(${offset}px)`;
     }
