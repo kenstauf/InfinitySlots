@@ -124,10 +124,6 @@ function buildWeightedFruitPool(totalSymbols) {
 // -----------------------------------------------------------------
 
 function validateSpin() {
-  // Special case: Allow spin after lost wager saver if coins >= minBet
-  if (lostWagerSaver && coins >= minBet) {
-    return true;
-  }
 
   // If lostWagerSaver is true AND player doesn't have enough for minBet, block spinning
   if (lostWagerSaver && coins < minBet) {
@@ -338,8 +334,6 @@ function checkWin() {
         Giga Wins: ${currentSpinGigaWins}<br>
         You won ${totalWin} coins!`;
       showGameAlert(resultMsg.trim());
-
-
       lostWagerSaver = false;
     }
   }
