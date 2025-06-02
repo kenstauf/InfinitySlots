@@ -61,31 +61,25 @@ function initReels() {
 
 // ------------------------------------------------------
 
-//INCREASE AND DECREASE BET
 function increaseBet(amount = 1) {
-  let newBet = bet + amount;
-  if (newBet <= minBet) {
+  // If not enough coins for minBet, force bet to minBet and do nothing else
+  if (coins < minBet) {
     bet = minBet;
-  } else if (newBet >= coins) {
-    bet = coins;
   } else {
-    bet = newBet;
+    bet = Math.min(Math.max(bet + amount, minBet), coins);
   }
   updateSpinButtonLabel();
 }
 
 function decreaseBet(amount = 1) {
-  let newBet = bet - amount;
-  if (newBet <= minBet) {
+  // If not enough coins for minBet, force bet to minBet and do nothing else
+  if (coins < minBet) {
     bet = minBet;
-  } else if (newBet >= coins) {
-    bet = coins;
   } else {
-    bet = newBet;
+    bet = Math.min(Math.max(bet - amount, minBet), coins);
   }
   updateSpinButtonLabel();
 }
-
 
 
 // ------------------------------------------------------
