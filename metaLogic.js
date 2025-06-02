@@ -22,7 +22,7 @@ function clickFreeMoneyBtn(tier) {
     // Force reflow to apply the reset before animating
     void progressBarFill.offsetWidth;
     // Now animate
-    progressBarFill.style.transition = 'width 3s linear';
+    progressBarFill.style.transition = 'width 1s linear';
     progressBarFill.style.width = '100%';
   }
 
@@ -40,7 +40,7 @@ function clickFreeMoneyBtn(tier) {
       progressBarFill.style.width = '0%';
     }
     if (button) button.disabled = false;
-  }, 3000);
+  }, 1000);
 
 }
 //-----------------------------------------
