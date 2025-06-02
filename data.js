@@ -75,17 +75,17 @@ const rarityMultipliers = {
 };
 
 
-    let symbols = allFruits.slice(0, 3); // Start with 5 fruits
+    let symbols = allFruits.slice(0, 3); // Start with 3 fruits
 
     let rowCost = 10;
     let isSpinning = false;
     let coins = 200;
     let rowCount = 1;
     let bet = 10;
-    let minorWin = 1.5;
-    let majorWin = 3;
-    let megaWwin = 5;
-    let gigaWin = 7;
+    let minorWin = 1.75;
+    let majorWin = 2.75;
+    let megaWwin = 5; //ADD THIS LATER
+    let gigaWin = 7; //ADD THIS LATER
     const baseMinBet = 10;
     let minBet = baseMinBet;
     const maxBet = 10000000000000;
