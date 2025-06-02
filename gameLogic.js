@@ -203,10 +203,10 @@ function doSpin(frame = 0) {
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
+      // Always scroll so that the last rowCount symbols are visible at the end!
       const maxOffset = (reelLength - rowCount) * symbolHeight;
-      // Clamp frame to avoid going past the last frame
-      const currentFrame = Math.min(frame, totalFrames - 1);
-      const offset = -currentFrame * symbolHeight;
+      const isFinalFrame = frame >= totalFrames - 1;
+      const offset = isFinalFrame ? -maxOffset : -frame * symbolHeight;
       stack.style.transition = 'transform 0.14s cubic-bezier(.25,.8,.5,1)';
       stack.style.transform = `translateY(${offset}px)`;
     }
