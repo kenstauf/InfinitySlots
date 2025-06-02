@@ -65,6 +65,15 @@
     color: #222;
 }
 
+  #reelContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0px; /* Optional: increase for space between columns */
+}
+
+
     .reels span.symbol:first-child { margin-left: 0; }
     .reels span.symbol:last-child  { margin-right: 0; }
 
@@ -148,7 +157,12 @@
     <!-- Slot Machine UI (centered, grows as needed) -->
     <div class="slot-machine" id="slotMachinePanel" style="margin-top: 50px; min-height: 400px;">
       <h1> Infinity Slots </h1>
-      <div id="reelContainer"></div>
+      <div id="reelContainer">
+        <div class="reels" id="reel0"><div class="reels-stack"></div></div>
+        <div class="reels" id="reel1"><div class="reels-stack"></div></div>
+     <div class="reels" id="reel2"><div class="reels-stack"></div></div>
+  </div>
+
       <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;">
         <button class="btn" onclick="decreaseBet()">⬇️</button>
         <button class="btn" id="spinButton" onclick="spin()">Spin (Bet: 10)</button>
