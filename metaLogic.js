@@ -9,40 +9,33 @@ const tierButtonEarnings = [null,
 
 //FUNCTION FOR EVERY BUTTON BASED ON TIER PASSED IN
 function clickFreeMoneyBtn(tier) {
-
-//PROGRESS BAR LOGIC
-//FIRST WE PULL THE RELEVANT BUTTON
   const progressBarFill = document.getElementById(`freeCoinsBarFill${tier}`);
   const button = document.getElementById(`getFreeCoinsBtn${tier}`);
 
-  // Reset the bar
   if (progressBarFill) {
     progressBarFill.style.transition = 'none';
     progressBarFill.style.width = '0%';
-    // Force reflow to apply the reset before animating
     void progressBarFill.offsetWidth;
-    // Now animate
     progressBarFill.style.transition = 'width 1s linear';
     progressBarFill.style.width = '100%';
   }
 
-  // disable the button during animation to prevent spam
   if (button) button.disabled = true;
 
-  // After 3 seconds, reset the bar and re-enable the button
   setTimeout(() => {
+    coins += tierButtonEarnings[tier]; // Add coins for that tier!
+    updateCoinDisplay();
 
-  //COIN LOGIC
-  coins += tierButtonEarnings[tier]; // Add coins for that tier!
-  updateCoinDisplay();
+    checkForMinBet();
+
     if (progressBarFill) {
       progressBarFill.style.transition = 'none';
       progressBarFill.style.width = '0%';
     }
     if (button) button.disabled = false;
   }, 1000);
-
 }
+
 //-----------------------------------------
 
 function checkForMinBet() {
@@ -61,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btn1) {
     btn1.addEventListener('click', function() {
       clickFreeMoneyBtn(1);
-      checkForMinBet()
     });
   }
 });
