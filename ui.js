@@ -62,19 +62,15 @@ function initReels() {
 // ------------------------------------------------------
 
 //INCREASE AND DECREASE BET
-    function increaseBet() {
-      if (bet < maxBet) {
-        bet++;
-        updateSpinButtonLabel();
-      }
-    }
+  function increaseBet(amount = 1) {
+    bet = Math.min(bet + amount, maxBet);
+    updateSpinButtonLabel();
+  }
 
-    function decreaseBet() {
-      if (bet > minBet) {
-        bet--;
-        updateSpinButtonLabel();
-      }
-    }
+  function decreaseBet(amount = 1) {
+    bet = Math.max(bet - amount, minBet);
+    updateSpinButtonLabel();
+  }
 
 // ------------------------------------------------------
 
