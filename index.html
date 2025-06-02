@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Slot Machine</title>
+  <style>
+    body {
+      background-color: #222;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .slot-machine {
+      border: 4px solid #888;
+      border-radius: 10px;
+      display: inline-block;
+      padding: 30px 50px;
+      background-color: #333;
+    }
+
+    .reels {
+      font-size: 48px;
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .row-label {
+      color: #999;
+      font-size: 18px;
+      margin-right: 10px;
+      min-width: 75px;
+      text-align: right;
+      font-family: 'Segoe UI', monospace;
+    }
+
+    .reels span.symbol {
+      margin: 0 15px;
+      padding: 10px 20px;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      display: inline-block;
+      width: 60px;
+      font-size: 48px;
+    }
+
+    .bet {
+      margin: 15px 0;
+    }
+
+    .btn {
+      font-size: 18px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    .fixed-center {
+      position: fixed;
+      top: 40%;
+      left: 66%; /* Or adjust to 50% for true center */
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
+
+    #gameAlertMsg {
+      white-space: pre-line !important;
+      display: block;
+      text-align: center;
+    }
+
+   .btn {
+    transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); /* Smooth and natural */
+  }
+
+
+  </style>
+</head>
+<body>
+
+
+<!-- Page Flex Container, centers everything horizontally -->
+<div style="display: flex; justify-content: center; align-items: flex-start; min-height: 150vh;">
+  <!-- Slot Machine and Free Coins in a vertical column -->
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <!-- Slot Machine UI (centered, grows as needed) -->
+    <div class="slot-machine" id="slotMachinePanel" style="margin-top: 50px; min-height: 400px;">
+      <h1>🎰 Infinity Slots <span>&infin;</span></h1>
+      <div id="reelContainer"></div>
+      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;">
+        <button class="btn" onclick="decreaseBet()">⬇️</button>
+        <button class="btn" id="spinButton" onclick="spin()">Spin (Bet: 10)</button>
+        <button class="btn" onclick="increaseBet()">⬆️</button>
+      </div>
+      <div style="margin-top: 15px;">
+        <button class="btn" id="buyRowBtn" onclick="buyRow()">Buy Row (10 coins)</button>
+      </div>
+      <div style="margin-top: 25px;">
+        <button class="btn" onclick="toggleInfo()">ℹ️ How to Win</button>
+        <div id="infoBox" style="display: none; margin-top: 10px; color: #ccc; font-size: 14px; line-height: 1.6;">
+          <strong>How It Works:</strong><br>
+          🟡 Minor Win – Two matching symbols in a row<br>
+          🟢 Major Win – Three matching symbols in a row<br>
+          🔥 Mega Bonus – Get 3 Major Wins with at least 3 rows unlocked<br>
+          The minimum bet increases with every row you purchase!
+        </div>
+      </div>
+    </div>
+    <!-- Free Coins Button & Progress Bar (below the slot machine, not fixed) -->
+    <div id="freeCoinsPanel" style="margin-top: 32px; text-align: center;">
+      <button class="btn" id="getFreeCoinsBtn1">Panhandle (+10 Cash)</button>
+      <div style="width: 100%; margin-top: 10px;">
+        <div id="freeCoinsProgressBar1" style="height: 18px; background: #444; border-radius: 8px; overflow: hidden;">
+          <div id="freeCoinsBarFill1" style="height: 100%; width: 0%; background: #28a745; transition: width 0.2s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Stats Panel Column (next to the slot machine) -->
+<div id="statsCol" style="display: flex; flex-direction: column; align-items: center; margin-left: 40px;">
+  <!-- ALERT PANEL: always above stats panel -->
+  <div id="gameAlert"
+    style="display:none; margin-bottom: 16px; width: 280px; background:#252525; color:#fff; font-weight:bold; border:2px solid #ffe066; padding:12px; border-radius:12px; font-size:1rem; text-align:center; font-family: inherit; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
+    <span id="gameAlertMsg"></span>
+    <div id="gameAlertButtons" style="margin-top: 14px; display: none;">
+      <button id="gameAlertYesBtn" class="btn" style="margin-right: 16px;">Yes</button>
+      <button id="gameAlertNoBtn" class="btn">No</button>
+    </div>
+  </div>
+  <!-- Stats Panel -->
+  <div id="statsPanel" style="background: #252525; padding: 30px 24px; border-radius: 12px; min-width: 210px; box-shadow: 0 0 12px #1113; font-family: inherit;">
+    <h2 style="font-size: 1.2em; margin-bottom: 20px;">🎲 Stats</h2>
+    <div style="margin-bottom: 16px; font-size: 1.25em; color: #ffe066;">
+      Coins: <strong id="coinCount" style="color: #fff83c;">100</strong>
+    </div>
+    <div><strong>Rows Unlocked:</strong> <span id="statRows">1</span></div>
+    <div style="margin-top: 16px;"><strong>Total Winnings:</strong> <span id="statWinnings">0</span> coins</div>
+    <div style="margin-top: 16px;"><strong>Unlocked Fruit:</strong> <span id="unlockedFruits"></span></div>
+  </div>
+</div>
+
+
+<!-- SCRIPTS -->
+<script src="data.js"></script>
+<script src="ui.js"></script>
+<script src="gameLogic.js"></script>
+<script src="metaLogic.js"></script>
+<script src="main.js"></script>
+<script src="shaders.js"></script>
+
+<script>
+  // Laggy/inertia follow effect for stats panel + alert
+  let targetY = 0;
+  let currentY = 0;
+  const ease = 0.13; // Lower is slower/more laggy
+  const yOffset = 150; // How far down from the top you want the panel
+
+  function animateStatsPanel() {
+    const statsCol = document.getElementById('statsCol');
+    if (!statsCol) return;
+    targetY = (window.scrollY || window.pageYOffset) + yOffset;
+    currentY += (targetY - currentY) * ease;
+    statsCol.style.transform = `translateY(${currentY}px)`;
+    requestAnimationFrame(animateStatsPanel);
+  }
+  window.addEventListener('DOMContentLoaded', animateStatsPanel);
+</script>
+
+
+</body>
+</html>
