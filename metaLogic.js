@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btn1) {
     btn1.addEventListener('click', function() {
       clickFreeMoneyBtn(1);
-      checkforMinBet()
+      checkForMinBet()
     });
   }
 });
