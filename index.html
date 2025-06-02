@@ -24,13 +24,28 @@
         background-color: #333;
     }
 
-    .reels {
-        font-size: 48px;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .reels {
+      width: 62px;
+      height: calc(62px * var(--rows));
+      overflow: hidden;
+      border-radius: 8px;
+      position: relative;
+      background: #f0f0f2;
+      margin: 0 6px;
+      box-shadow: 0 2px 8px #0002;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+  }
+
+  /* Inner stack for animation */
+.reels-stack {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s cubic-bezier(.25,.8,.5,1);
+    will-change: transform;
+}
 
     .row-label {
         color: #999;
@@ -41,22 +56,14 @@
         font-family: 'Bungee', monospace;
     }
 
-    .reels span.symbol {
-        background: #f0f0f2;
-        border-left: 2px solid #dddde2;
-        border-right: 2px solid #dddde2;
-        border-top: none;
-        border-bottom: none;
-        border-radius: 0;
-        box-shadow: 0 1px 3px #0001;
-        margin: 0 5px;         /
-        padding: 8px 0;        
-        display: inline-block;
-        width: 62px;           
-        font-size: 40px;       
-        color: #222;
-        transition: background 0.15s, box-shadow 0.15s;
-    }
+.reels span.symbol {
+    margin: 0;
+    padding: 8px 0;
+    display: block;
+    width: 100%;
+    font-size: 40px;
+    color: #222;
+}
 
     .reels span.symbol:first-child { margin-left: 0; }
     .reels span.symbol:last-child  { margin-right: 0; }
