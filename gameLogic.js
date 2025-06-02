@@ -194,7 +194,6 @@ function fillRows() {
 function doSpin() {
   const columns = 3;
   const reelLength = spinResult[0].length;
-  const rowCount = /* your row count variable */;
   const symbolHeight = 62;
   const maxOffset = (reelLength - rowCount) * symbolHeight;
   const scrollDuration = 1600; // ms
@@ -386,9 +385,6 @@ function spin() {
       spinResult[col][pos] = fruitPool[Math.floor(Math.random() * fruitPool.length)];
     }
   }
-
-  // For debugging, log the new spinResult array
-  console.log("spin v 1.01: Spin Result Array:", spinResult);
 
   fillRows();
   doSpin();
