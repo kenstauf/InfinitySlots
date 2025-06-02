@@ -5,7 +5,7 @@ window.onload = function() {
   initReels();
   updateSpinButtonLabel();
   updateStatsPanel();
-  console.log("Version 0.00019")
+  console.log("Version 0.00020")
   // Event listeners
   document.getElementById("spinButton").onclick = spin;
   document.getElementById("buyRowBtn").onclick = buyRow;
