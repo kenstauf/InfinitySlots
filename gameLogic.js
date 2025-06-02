@@ -65,26 +65,18 @@ function offerWagerSaver() {
   updateCoinDisplay();
   document.getElementById("buyRowBtn").textContent = `Buy Row (${rowCost} coins)`;
 
-  document.querySelectorAll('.reels').forEach(col => {
-    col.style.setProperty('--rows', rowCount);
+document.querySelectorAll('.reels').forEach(col => {
+  col.style.setProperty('--rows', rowCount);
 
-    // Find the stack inside this column
-    let stack = col.querySelector('.reels-stack');
-    if (!stack) {
-      // If it doesn't exist, create it
-      stack = document.createElement('div');
-      stack.className = 'reels-stack';
-      col.appendChild(stack);
-    }
-
-    // Ensure there are enough symbols
-    while (stack.children.length < rowCount) {
-      const span = document.createElement('span');
-      span.className = 'symbol';
-      span.textContent = '❓';
-      stack.appendChild(span);
-    }
-  });
+  // Find the stack inside this column
+  let stack = col.querySelector('.reels-stack');
+  if (!stack) {
+    // If it doesn't exist, create it
+    stack = document.createElement('div');
+    stack.className = 'reels-stack';
+    col.appendChild(stack);
+  }
+});
 
   updateStatsPanel();
   recalculateMinBet();
@@ -191,41 +183,44 @@ function fillRows() {
 
 //-----------------------------------------------------------------
 
+//SPIN ANIMATION FUNCTION, CALLS CHECKWIN AFTER FINISHING
 function doSpin() {
   const columns = 3;
   const reelLength = spinResult[0].length;
   const symbolHeight = 62;
-  const maxOffset = (reelLength - rowCount) * symbolHeight;
-  const scrollDuration = 1600; // ms
+  const baseScrollDuration = 1200; // ms
+  const stagger = 1200;             // ms
 
-  // Set starting position: bottom of the stack
+  // Set all reels instantly to starting position (bottom)
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      stack.style.transition = 'none'; // No animation for setup
+      const maxOffset = (reelLength - rowCount) * symbolHeight;
+      stack.style.transition = 'none';
       stack.style.transform = `translateY(${-maxOffset}px)`;
-      stack.offsetHeight; // Force reflow
+      stack.offsetHeight; // force reflow
     }
   }
 
-  // Animate to the top: shows first N (top) symbols
-  setTimeout(() => {
-    for (let col = 0; col < columns; col++) {
-      const stack = document.querySelector(`#reel${col} .reels-stack`);
-      if (stack) {
-        stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
-        stack.style.transform = `translateY(0px)`;
-      }
+  // All columns animate at once, but each takes longer to reach the top
+  for (let col = 0; col < columns; col++) {
+    const stack = document.querySelector(`#reel${col} .reels-stack`);
+    if (stack) {
+      const scrollDuration = baseScrollDuration + (col * stagger);
+      // Start all at the same time, but each has its own duration
+      stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
+      stack.style.transform = `translateY(0px)`;
     }
-  }, 50);
+  }
 
+  // Wait for the *last* column to finish before running checkWin
+  const totalDuration = baseScrollDuration + ((columns - 1) * stagger);
   setTimeout(() => {
     checkWin();
     isSpinning = false;
     lostWagerSaver = false;
-  }, scrollDuration + 100);
+  }, totalDuration + 100);
 }
-
 
 // -----------------------------------------------------------------
 
@@ -356,6 +351,7 @@ function checkWin() {
 function spin() {
   // Constants
   const columns = 3;
+  const rowAnimationRows = Math.floor(rowCount / 3) + 30;
   const reelLength = rowCount + rowAnimationRows;
 
   //CLEAR ALERT BOX, SHOW SPIN IN PROGRESS TEXT
