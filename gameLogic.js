@@ -69,12 +69,6 @@ function offerWagerSaver() {
   const reelRow = document.createElement("div");
   reelRow.classList.add("reels");
 
-  // Add visible row label for debugging:
-  const rowLabel = document.createElement("span");
-  rowLabel.className = "row-label";
-  rowLabel.textContent = `[Row ${rowCount}]`;
-  reelRow.appendChild(rowLabel);
-
   // Add slot symbols for this row
   for (let i = 1; i <= 3; i++) {
     const span = document.createElement("span");
