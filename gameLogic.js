@@ -65,22 +65,26 @@ function offerWagerSaver() {
   updateCoinDisplay();
   document.getElementById("buyRowBtn").textContent = `Buy Row (${rowCost} coins)`;
 
-  // Create a new row for the bottom of the UI
-  const reelRow = document.createElement("div");
-  reelRow.classList.add("reels");
+  document.querySelectorAll('.reels').forEach(col => {
+    col.style.setProperty('--rows', rowCount);
 
-  // Add slot symbols for this row
-  for (let i = 1; i <= 3; i++) {
-    const span = document.createElement("span");
-    span.id = `reel${i}${rowCount}`;
-    span.textContent = "❓";
-    span.className = "symbol";
-    reelRow.appendChild(span);
-  }
+    // Find the stack inside this column
+    let stack = col.querySelector('.reels-stack');
+    if (!stack) {
+      // If it doesn't exist, create it
+      stack = document.createElement('div');
+      stack.className = 'reels-stack';
+      col.appendChild(stack);
+    }
 
-  // Append the new row to the **bottom** of the reel container
-  const container = document.getElementById("reelContainer");
-  container.appendChild(reelRow);
+    // Ensure there are enough symbols
+    while (stack.children.length < rowCount) {
+      const span = document.createElement('span');
+      span.className = 'symbol';
+      span.textContent = '❓';
+      stack.appendChild(span);
+    }
+  });
 
   updateStatsPanel();
   recalculateMinBet();
@@ -157,21 +161,54 @@ function validateSpin() {
 
 //-----------------------------------------------------------------
 
+//FILL REELS WITH ICONS FROM DATA ARRAY IN ORDER TO SCROLL THEM DOWNWARD
 
+function fillRows() {
+  const columns = 3;
+  for (let col = 0; col < columns; col++) {
+    // Find the reel and its stack
+    const reel = document.getElementById(`reel${col}`);
+    if (!reel) continue; // If missing, skip (shouldn't happen if set up at page load)
+    let stack = reel.querySelector('.reels-stack');
+    if (!stack) continue;
+
+    // Clear previous symbols
+    stack.innerHTML = '';
+
+    // Fill with all symbols from spinResult[col]
+    for (let i = 0; i < spinResult[col].length; i++) {
+      const span = document.createElement('span');
+      span.className = 'symbol';
+      span.textContent = spinResult[col][i];
+      stack.appendChild(span);
+    }
+
+    // Set visible window height
+    reel.style.setProperty('--rows', rowCount);
+  }
+}
+
+
+//-----------------------------------------------------------------
+
+//ANIMATES SPIN
 function doSpin(frame = 0) {
   const columns = 3;
   const reelLength = spinResult[0].length;
-  const totalFrames = reelLength - rowCount + 1; // Animate until last full visible window
+  const totalFrames = reelLength - rowCount + 1; // Number of animation steps
   const startDelay = 10;
   const endDelay = 500;
+  const symbolHeight = 62; // Make sure this matches your CSS
 
+  // For each column, animate the stack up by frame * symbolHeight
   for (let col = 0; col < columns; col++) {
-    for (let row = 0; row < rowCount; row++) {
-      const symbol = spinResult[col][(reelLength - rowCount - frame) + row];
-      document.getElementById(`reel${col + 1}${row + 1}`).textContent = symbol;
+    const stack = document.querySelector(`#reel${col} .reels-stack`);
+    if (stack) {
+      const offset = -frame * symbolHeight;
+      stack.style.transition = 'transform 0.14s cubic-bezier(.25,.8,.5,1)';
+      stack.style.transform = `translateY(${offset}px)`;
     }
   }
-
 
   if (frame < totalFrames - 1) {
     const progress = frame / (totalFrames - 1);
@@ -186,6 +223,7 @@ function doSpin(frame = 0) {
     }, 150);
   }
 }
+
 
 
 	
@@ -351,6 +389,7 @@ function spin() {
   // For debugging, log the new spinResult array
   console.log("Spin Result Array:", spinResult);
 
+  fillRows();
   doSpin();
 }
 
