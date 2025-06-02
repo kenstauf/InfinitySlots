@@ -1,7 +1,7 @@
 //ADD GLOW EFFECT
 
 function addGlow(element) {
-  element.style.boxShadow = "0 0 8px 2px #ffe066, 0 0 18px 4px #fff80088";
+  element.style.boxShadow = "0 0 8px 2px #ffe066, 0 0 18px 4px #fff80022";
 }
 
 //REMOVE GLOW EFFECT
