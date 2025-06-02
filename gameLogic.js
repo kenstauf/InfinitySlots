@@ -191,31 +191,43 @@ function fillRows() {
 
 //-----------------------------------------------------------------
 
-//ANIMATE SPIN
 function doSpin() {
   const columns = 3;
   const reelLength = spinResult[0].length;
-  const scrollDuration = 1600; // ms (1.6 seconds, adjust as needed)
-  const symbolHeight = 62; // or whatever height your symbols are in px
+  const rowCount = /* your row count variable */;
+  const symbolHeight = 62;
   const maxOffset = (reelLength - rowCount) * symbolHeight;
+  const scrollDuration = 1600; // ms
 
-
+  // Set starting position: bottom of the stack
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
+      stack.style.transition = 'none'; // No animation for setup
       stack.style.transform = `translateY(${-maxOffset}px)`;
+      stack.offsetHeight; // Force reflow
     }
   }
-  // After scrollDuration, run checkWin etc.
+
+  // Animate to the top: shows first N (top) symbols
+  setTimeout(() => {
+    for (let col = 0; col < columns; col++) {
+      const stack = document.querySelector(`#reel${col} .reels-stack`);
+      if (stack) {
+        stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
+        stack.style.transform = `translateY(0px)`;
+      }
+    }
+  }, 50);
+
   setTimeout(() => {
     checkWin();
     isSpinning = false;
     lostWagerSaver = false;
-  }, scrollDuration + 150);
+  }, scrollDuration + 100);
 }
 
-	
+
 // -----------------------------------------------------------------
 
 //CHECK PAYOUT FOR ANY GIVEN ROW
