@@ -75,7 +75,7 @@ const rarityMultipliers = {
 };
 
 
-    let symbols = allFruits.slice(0, 3); // Start with 3 fruits
+    let symbols = allFruits.slice(0, 5); // Start with 5 fruits
 
     let rowCost = 10;
     let isSpinning = false;
