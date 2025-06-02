@@ -68,10 +68,10 @@ const allFruits = buildAllFruitsArray();
 
 const rarityMultipliers = {
   common: 1,      // No bonus
-  uncommon: 2,    // 2x
-  rare: 5,        // 5x
-  epic: 10,       // 10x
-  legendary: 25   // 25x (or whatever you want the jackpot to be)
+  uncommon: 1.25,    
+  rare: 2.25,       
+  epic: 3.25,       
+  legendary: 5   
 };
 
 
@@ -82,10 +82,10 @@ const rarityMultipliers = {
     let coins = 200;
     let rowCount = 1;
     let bet = 10;
-    let minorWin = .60; //TWO MATCHES
-    let majorWin = 2; //THREE MATCHES
-    let megaWin = 3.5; //FOUR MATCHES
-    let gigaWin = 10; //FIVE MATCHES
+    let minorWin = .30; //TWO MATCHES
+    let majorWin = 1.5; //THREE MATCHES
+    let megaWin = 2; //FOUR MATCHES
+    let gigaWin = 7; //FIVE MATCHES
     const baseMinBet = 10;
     let minBet = baseMinBet;
     const maxBet = 10000000000000;
