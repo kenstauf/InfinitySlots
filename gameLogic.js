@@ -316,7 +316,6 @@ function checkWin() {
 
     } else {
       showGameAlert("You didn't win enough on your Wager Saver spin, go earn some more money!");
-      document.getElementById("spinButton").disabled = true;
       isWagerSaver = false;
       lostWagerSaver = true;
     }
