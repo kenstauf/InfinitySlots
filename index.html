@@ -9,7 +9,7 @@
   <style>
     body {
         background-color: #222;
-        color: #fff;
+        color: #f1f1f1;
         font-family: 'Bungee', sans-serif;
         text-align: center;
         padding-top: 100px;
@@ -22,9 +22,10 @@
         display: inline-block;
         padding: 30px 50px;
         background-color: #333;
+        color: #f1f1f1;
     }
 
-  .reels {
+    .reels {
       width: 62px;
       height: calc(62px * var(--rows));
       overflow: hidden;
@@ -37,18 +38,17 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: stretch;
-  }
+    }
 
-  /* Inner stack for animation */
-.reels-stack {
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.18s cubic-bezier(0.1, 1, 0.8, 1);
-    will-change: transform;
-}
+    .reels-stack {
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.18s cubic-bezier(0.1, 1, 0.8, 1);
+        will-change: transform;
+    }
 
     .row-label {
-        color: #999;
+        color: #a0a0a0;
         font-size: 16px;
         margin-right: 10px;
         min-width: 75px;
@@ -56,42 +56,42 @@
         font-family: 'Bungee', monospace;
     }
 
-.reels span.symbol {
-    margin: 0;
-    padding: 0;
-    height: 62px;
-    display: flex;
-    align-items: center;       /* vertical center */
-    justify-content: center;   /* horizontal center */
-    width: 100%;
-    font-size: 40px;
-    color: #222;
-    box-sizing: border-box;
-    background-color: #c7c7c7;                   /* light gray background */
-    border-top: 2px solid #a0a0a0;               /* slightly darker gray */
-    border-bottom: 2px solid #a0a0a0;            /* slightly darker gray */
-}
+    .reels span.symbol {
+        margin: 0;
+        padding: 0;
+        height: 62px;
+        display: flex;
+        align-items: center;       /* vertical center */
+        justify-content: center;   /* horizontal center */
+        width: 100%;
+        font-size: 40px;
+        color: #222;
+        box-sizing: border-box;
+        background-color: #c7c7c7;                   /* light gray background */
+        border-top: 2px solid #a0a0a0;               /* slightly darker gray */
+        border-bottom: 2px solid #a0a0a0;            /* slightly darker gray */
+    }
 
-  #reelContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0px; /* Optional: increase for space between columns */
-}
-
+    #reelContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0px;
+    }
 
     .reels span.symbol:first-child { margin-left: 0; }
     .reels span.symbol:last-child  { margin-right: 0; }
 
     .bet {
         margin: 15px 0;
+        color: #f1f1f1;
     }
 
     .btn {
         font-size: 16px;
         padding: 10px 28px;
-        color: #fff;
+        color: #f1f1f1;
         background: linear-gradient(to bottom, #4be171 0%, #28a745 95%);
         border: 1.5px solid #218838;
         border-radius: 7px;
@@ -143,19 +143,46 @@
         white-space: pre-line !important;
         display: block;
         text-align: center;
+        color: #f1f1f1;
     }
 
-
-
-   .btn {
-    transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); 
+    .btn {
+      transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); 
     }
 
+    h1, h2, h3, h4, h5, h6, strong, #statRows, #statWinnings, #unlockedFruits, #spinButton, #buyRowBtn, #getFreeCoinsBtn1 {
+      color: #f1f1f1 !important;
+    }
+    /* Panel Texts */
+    #statsPanel, #gameAlert, .slot-machine, .row-label, #infoBox, .bet {
+      color: #f1f1f1 !important;
+    }
 
+    /* Coins label should be yellow! */
+    .coins-label {
+      color: #fff83c !important;
+    }
+
+    /* Coin value should be light gray */
+    #coinCount {
+      color: #f1f1f1 !important;
+    }
+
+    /* Black outline for all text for pop */
+    body, .slot-machine, #statsPanel, #gameAlert, .btn, h1, h2, h3, h4, h5, h6, strong, #statRows, #statWinnings, #unlockedFruits, .row-label, #infoBox, #coinCount, #spinButton, #buyRowBtn, #getFreeCoinsBtn1, .coins-label {
+      text-shadow: 
+        1px 0 0 #000, 
+       -1px 0 0 #000, 
+        0 1px 0 #000, 
+        0 -1px 0 #000,
+        1px 1px 0 #000,
+       -1px -1px 0 #000,
+        1px -1px 0 #000,
+       -1px 1px 0 #000;
+    }
   </style>
 </head>
 <body>
-
 
 <!-- Page Flex Container, centers everything horizontally -->
 <div style="display: flex; justify-content: center; align-items: flex-start; min-height: 150vh;">
@@ -167,26 +194,35 @@
       <div id="reelContainer">
         <div class="reels" id="reel0"><div class="reels-stack"></div></div>
         <div class="reels" id="reel1"><div class="reels-stack"></div></div>
-     <div class="reels" id="reel2"><div class="reels-stack"></div></div>
-  </div>
+        <div class="reels" id="reel2"><div class="reels-stack"></div></div>
+        <div class="reels" id="reel3"><div class="reels-stack"></div></div>
+        <div class="reels" id="reel4"><div class="reels-stack"></div></div>
+      </div>
       
 <!-- BET INCREMENT BUTTONS -->
-<div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px;">
-  <button class="btn" style="font-size:14px; padding:2px 6px; min-width:32px;" onclick="decreaseBet(10)">-10</button>
-  <button class="btn" style="font-size:14px; padding:2px 6px; min-width:32px;" onclick="decreaseBet(5)">-5</button>
-  <button class="btn" onclick="decreaseBet()">⬇-1</button>
-  <button class="btn" id="spinButton" onclick="spin()">Spin (Bet: 10)</button>
-  <button class="btn" onclick="increaseBet()">⬆+1</button>
-  <button class="btn" style="font-size:14px; padding:2px 6px; min-width:32px;" onclick="increaseBet(5)">+5</button>
-  <button class="btn" style="font-size:14px; padding:2px 6px; min-width:32px;" onclick="increaseBet(10)">+10</button>
+<div style="display: flex; justify-content: center; align-items: center; gap: 32px; margin-top: 20px;">
+  <!-- Decrease Bet Column -->
+  <div style="display: flex; flex-direction: column; gap: 4px;">
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="decreaseBet()">-1</button>
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="decreaseBet(5)">-5</button>
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="decreaseBet(10)">-10</button>
+  </div>
+  <!-- Spin Button -->
+  <button class="btn" id="spinButton" style="min-width:110px; height:56px; font-size:17px; color:#f1f1f1;" onclick="spin()">Spin (Bet: 10)</button>
+  <!-- Increase Bet Column -->
+  <div style="display: flex; flex-direction: column; gap: 4px;">
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="increaseBet()">+1</button>
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="increaseBet(5)">+5</button>
+    <button class="btn" style="width:38px; height:38px; font-size:16px; color:#f1f1f1;" onclick="increaseBet(10)">+10</button>
+  </div>
 </div>
 
       <div style="margin-top: 15px;">
-        <button class="btn" id="buyRowBtn" onclick="buyRow()">Buy Row (10 coins)</button>
+        <button class="btn" id="buyRowBtn" style="color:#f1f1f1;" onclick="buyRow()">Buy Row (10 coins)</button>
       </div>
       <div style="margin-top: 25px;">
-        <button class="btn" onclick="toggleInfo()">ℹ️ How to Win</button>
-        <div id="infoBox" style="display: none; margin-top: 10px; color: #ccc; font-size: 14px; line-height: 1.6;">
+        <button class="btn" style="color:#f1f1f1;" onclick="toggleInfo()">ℹ️ How to Win</button>
+        <div id="infoBox" style="display: none; margin-top: 10px; color: #f1f1f1; font-size: 14px; line-height: 1.6;">
           <strong>How It Works:</strong><br>
           🟡 Minor Win – Two matching symbols in a row<br>
           🟢 Major Win – Three matching symbols in a row<br>
@@ -197,7 +233,7 @@
     </div>
     <!-- Free Coins Button & Progress Bar (below the slot machine, not fixed) -->
     <div id="freeCoinsPanel" style="margin-top: 32px; text-align: center;">
-      <button class="btn" id="getFreeCoinsBtn1">Panhandle (+10 Cash)</button>
+      <button class="btn" id="getFreeCoinsBtn1" style="color:#f1f1f1;">Panhandle (+10 Cash)</button>
       <div style="width: 100%; margin-top: 10px;">
         <div id="freeCoinsProgressBar1" style="height: 18px; background: #444; border-radius: 8px; overflow: hidden;">
           <div id="freeCoinsBarFill1" style="height: 100%; width: 0%; background: #28a745; transition: width 0.2s;"></div>
@@ -210,25 +246,25 @@
 <div id="statsCol" style="display: flex; flex-direction: column; align-items: center; margin-left: 40px;">
   <!-- ALERT PANEL: always above stats panel -->
   <div id="gameAlert"
-    style="display:none; margin-bottom: 16px; width: 280px; background:#252525; color:#fff; font-weight:bold; border:2px solid #ffe066; padding:12px; border-radius:12px; font-size:1rem; text-align:center; font-family: inherit; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
+    style="display:none; margin-bottom: 16px; width: 280px; background:#252525; color:#f1f1f1; font-weight:bold; border:2px solid #ffe066; padding:12px; border-radius:12px; font-size:1rem; text-align:center; font-family: inherit; box-shadow: 0 4px 24px rgba(0,0,0,0.18);">
     <span id="gameAlertMsg"></span>
     <div id="gameAlertButtons" style="margin-top: 14px; display: none;">
-      <button id="gameAlertYesBtn" class="btn" style="margin-right: 16px;">Yes</button>
-      <button id="gameAlertNoBtn" class="btn">No</button>
+      <button id="gameAlertYesBtn" class="btn" style="margin-right: 16px; color:#f1f1f1;">Yes</button>
+      <button id="gameAlertNoBtn" class="btn" style="color:#f1f1f1;">No</button>
     </div>
   </div>
   <!-- Stats Panel -->
-  <div id="statsPanel" style="background: #252525; padding: 30px 24px; border-radius: 12px; min-width: 210px; box-shadow: 0 0 12px #1113; font-family: inherit;">
-    <h2 style="font-size: 1.0em; margin-bottom: 20px;">🎲 Stats</h2>
-    <div style="margin-bottom: 16px; font-size: 1.05em; color: #ffe066;">
-      Coins: <strong id="coinCount" style="color: #fff83c;">100</strong>
+  <div id="statsPanel" style="background: #252525; padding: 30px 24px; border-radius: 12px; min-width: 210px; box-shadow: 0 0 12px #1113; font-family: inherit; color:#f1f1f1;">
+    <h2 style="font-size: 1.0em; margin-bottom: 20px; color:#f1f1f1;">🎲 Stats</h2>
+    <div style="margin-bottom: 16px; font-size: 1.05em; color: #f1f1f1;">
+      <span class="coins-label" style="color: #fff83c;">Coins:</span>
+      <strong id="coinCount" style="color: #f1f1f1;">100</strong>
     </div>
-    <div><strong>Rows Unlocked:</strong> <span id="statRows">1</span></div>
-    <div style="margin-top: 16px;"><strong>Total Winnings:</strong> <span id="statWinnings">0</span> coins</div>
-    <div style="margin-top: 16px;"><strong>Unlocked Fruit:</strong> <span id="unlockedFruits"></span></div>
+    <div><strong style="color:#f1f1f1;">Rows Unlocked:</strong> <span id="statRows" style="color:#f1f1f1;">1</span></div>
+    <div style="margin-top: 16px;"><strong style="color:#f1f1f1;">Total Winnings:</strong> <span id="statWinnings" style="color:#f1f1f1;">0</span> coins</div>
+    <div style="margin-top: 16px;"><strong style="color:#f1f1f1;">Unlocked Fruit:</strong> <span id="unlockedFruits" style="color:#f1f1f1;"></span></div>
   </div>
 </div>
-
 
 <!-- SCRIPTS -->
 <script src="data.js"></script>
@@ -255,7 +291,6 @@
   }
   window.addEventListener('DOMContentLoaded', animateStatsPanel);
 </script>
-
 
 </body>
 </html>
