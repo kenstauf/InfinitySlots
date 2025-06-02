@@ -51,19 +51,26 @@
       margin: 15px 0;
     }
 
-    .btn {
-      font-size: 18px;
-      padding: 10px 20px;
-      background-color: #28a745;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #218838;
-    }
+  .btn {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.08s cubic-bezier(.2,.8,.2,1), box-shadow 0.07s, filter 0.07s;
+  }
+    
+  .btn:hover {
+    background-color: #218838;
+  }
+    
+  .btn:active {
+    transform: scale(0.96) translateY(2px);
+    box-shadow: 0 2px 6px #2222;
+    filter: brightness(0.93);
+  }
 
     .fixed-center {
       position: fixed;
