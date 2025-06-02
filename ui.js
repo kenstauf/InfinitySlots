@@ -26,7 +26,7 @@ function initReels() {
   const container = document.getElementById("reelContainer");
   container.innerHTML = ""; // Clear anything existing
 
-  for (let col = 0; col < 3; col++) {
+  for (let col = 0; col < columns; col++) {
     const reel = document.createElement("div");
     reel.className = "reels";
     reel.id = `reel${col}`;
