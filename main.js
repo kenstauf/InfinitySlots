@@ -2,7 +2,7 @@
 window.onload = function() {
   // Initialize UI
   updateCoinDisplay();
-  initRow();
+  initReels();
   updateSpinButtonLabel();
   updateStatsPanel();
 
