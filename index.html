@@ -8,124 +8,124 @@
   <title>Slot Machine</title>
   <style>
     body {
-      background-color: #222;
-      color: #fff;
-      font-family: 'Press Start 2P', sans-serif;
-      text-align: center;
-      padding-top: 100px;
+        background-color: #222;
+        color: #fff;
+        font-family: 'Press Start 2P', sans-serif;
+        text-align: center;
+        padding-top: 100px;
+        font-size: 11px; 
     }
 
     .slot-machine {
-      border: 4px solid #888;
-      border-radius: 10px;
-      display: inline-block;
-      padding: 30px 50px;
-      background-color: #333;
+        border: 4px solid #888;
+        border-radius: 10px;
+        display: inline-block;
+        padding: 28px 42px;
+        background-color: #333;
     }
 
-    /* REMOVING MARGING TO GIVE ILLUSION OF EVERY REEL BEING CONNECTED IN A COLUMN */ 
-
-
     .reels {
-      font-size: 48px;
-      margin: 0px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        font-size: 32px; 
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .row-label {
-      color: #999;
-      font-size: 16px;
-      margin-right: 10px;
-      min-width: 75px;
-      text-align: right;
-      font-family: 'Press Start 2P', monospace;
+        color: #999;
+        font-size: 12px;
+        margin-right: 8px;
+        min-width: 60px;
+        text-align: right;
+        font-family: 'Press Start 2P', monospace;
     }
 
     .reels span.symbol {
-      background: #f0f0f2;
-      border-left: 2px solid #dddde2;
-      border-right: 2px solid #dddde2;
-      border-top: none;
-      border-bottom: none;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px #0001;
-      margin: 0 0px;
-      padding: 8px 0;
-      display: inline-block;
-      width: 62px;
-      font-size: 40px;
-      color: #222;
-      transition: background 0.15s, box-shadow 0.15s;
+        background: #f0f0f2;
+        border-left: 2px solid #dddde2;
+        border-right: 2px solid #dddde2;
+        border-top: none;
+        border-bottom: none;
+        border-radius: 0;
+        box-shadow: 0 1px 3px #0001;
+        margin: 0 10px;       
+        padding: 0px 0;       
+        display: inline-block;
+        width: 40px;          
+        font-size: 22px;      
+        color: #222;
+        transition: background 0.15s, box-shadow 0.15s;
     }
 
+    .reels span.symbol:first-child { margin-left: 0; }
+    .reels span.symbol:last-child  { margin-right: 0; }
 
     .bet {
-      margin: 15px 0;
+        margin: 10px 0;
     }
 
     .btn {
-      font-size: 16px;
-      padding: 10px 28px;
-      color: #fff;
-      background: linear-gradient(to bottom, #4be171 0%, #28a745 95%);
-      border: 1.5px solid #218838;
-      border-radius: 7px;
-      box-shadow: 0 3px 0 #146c32, 0 6px 18px #0002;
-      font-weight: bold;
-      cursor: pointer;
-      transition:
-        box-shadow 0.08s cubic-bezier(.2,.8,.2,1),
-        transform 0.08s cubic-bezier(.2,.8,.2,1),
-        filter 0.08s;
-      text-shadow: 0 1px 2px #185c32aa;
-      position: relative;
-      outline: none;
+        font-size: 12px;
+        padding: 7px 18px;
+        color: #fff;
+        background: linear-gradient(to bottom, #4be171 0%, #28a745 95%);
+        border: 1px solid #218838;
+        border-radius: 7px;
+        box-shadow: 0 2px 0 #146c32, 0 4px 14px #0002;
+        font-weight: bold;
+        cursor: pointer;
+        transition:
+            box-shadow 0.08s cubic-bezier(.2,.8,.2,1),
+            transform 0.08s cubic-bezier(.2,.8,.2,1),
+            filter 0.08s;
+        text-shadow: 0 1px 2px #185c32aa;
+        position: relative;
+        outline: none;
     }
 
     .btn:before {
-      /* Top glossy highlight */
-      content: "";
-      position: absolute;
-      left: 5%;
-      top: 7%;
-      width: 90%;
-      height: 25%;
-      background: linear-gradient(to bottom, #fff3 50%, transparent 100%);
-      border-radius: 5px 5px 20px 20px/6px 6px 20px 20px;
-      pointer-events: none;
-      z-index: 1;
+        content: "";
+        position: absolute;
+        left: 5%;
+        top: 7%;
+        width: 90%;
+        height: 22%;
+        background: linear-gradient(to bottom, #fff2 40%, transparent 100%);
+        border-radius: 5px 5px 20px 20px/6px 6px 20px 20px;
+        pointer-events: none;
+        z-index: 1;
     }
 
     .btn:hover {
-      filter: brightness(1.08);
-      background: linear-gradient(to bottom, #69f080 0%, #37bb50 98%);
+        filter: brightness(1.08);
+        background: linear-gradient(to bottom, #69f080 0%, #37bb50 98%);
     }
 
     .btn:active {
-      transform: scale(0.96) translateY(2px);
-      box-shadow: 0 1.5px 0 #146c32, 0 3px 10px #0002;
-      filter: brightness(0.96);
+        transform: scale(0.96) translateY(2px);
+        box-shadow: 0 1.5px 0 #146c32, 0 3px 10px #0002;
+        filter: brightness(0.96);
     }
 
     .fixed-center {
-      position: fixed;
-      top: 40%;
-      left: 66%; /* Or adjust to 50% for true center */
-      transform: translate(-50%, -50%);
-      z-index: 100;
+        position: fixed;
+        top: 40%;
+        left: 66%; 
+        transform: translate(-50%, -50%);
+        z-index: 100;
     }
 
     #gameAlertMsg {
-      white-space: pre-line !important;
-      display: block;
-      text-align: center;
+        white-space: pre-line !important;
+        display: block;
+        text-align: center;
     }
 
+
    .btn {
-    transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); /* Smooth and natural */
-  }
+    transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); 
+    }
 
 
   </style>
