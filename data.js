@@ -106,7 +106,7 @@ const rarityMultipliers = {
     let currentSpinMajorWins = 0;
     let currentSpinMegaWins = 0;
     let currentSpinGigaWins = 0;
-
+    let slotSoundVolume = 0.5; // 50% volume, adjust as needed (0.0 - 1.0)
 
 
 function getFruitRarity(fruit) {
