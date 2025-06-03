@@ -331,7 +331,7 @@ function checkWin() {
   if (isWagerSaver) {
     if (totalWin > minBet) {
       coins += totalWin;
-      coins += totalWinnings;
+      totalWinnings += totalWin;
       updateStatsPanel();
       updateCoinDisplay();
 
@@ -355,7 +355,7 @@ function checkWin() {
   } else {
     if (totalWin > 0) {
       coins += totalWin;
-      coins += totalWinnings;
+      totalWinnings += totalWin;
       updateStatsPanel();
       updateCoinDisplay();
       // Show user total winnings, as well as major and minor win count
