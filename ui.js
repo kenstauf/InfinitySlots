@@ -141,10 +141,20 @@ function showSpinInProgress() {
 //---------------------------------
 //AUDIO FUNCTION
 
-function playSlotSound() {
+function playSlotSound(volume = 0.5, pitch = 1.0, clipDuration = 0.25) {
   const audio = document.getElementById("slotSound");
-  audio.currentTime = 0; // rewind to start
+  audio.volume = volume;
+  audio.playbackRate = pitch;
+  audio.currentTime = 0.2; // Skip the first 0.2 seconds (optional)
   audio.play();
 }
+
+
+function stopSlotSound() {
+  const audio = document.getElementById("slotSound");
+  audio.pause();
+  audio.currentTime = 0.2; // Or whatever start offset you prefer (e.g. 0.2)
+}
+
 
 
