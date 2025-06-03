@@ -4,7 +4,9 @@ function saveGame() {
     coins: coins,
     rowCount: rowCount,
     totalWinnings: totalWinnings,
-    rowCost: rowCost
+    rowCost: rowCost,
+    bet: bet,
+    minBet: minBet
   };
   localStorage.setItem("slotSaveData", JSON.stringify(saveData));
 }
@@ -17,6 +19,8 @@ function loadGame() {
     rowCount = save.rowCount;
     totalWinnings = save.totalWinnings;
     rowCost = save.rowCost;
+    minBet = save.minBet;
+    bet = save.bet;
 
     updateStatsPanel();
     initReels();
