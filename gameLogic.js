@@ -183,9 +183,17 @@ function doSpin() {
   const reelLength = spinResult[0].length;
   const symbolHeight = 62;
   const baseScrollDuration = 1200; // ms
-  const stagger = 1200;             // ms
+  const stagger = 300;             // ms
+  const columns = 3;
+  const rowCount = 3; // adjust if not global
 
-  // Set all reels instantly to starting position (bottom)
+  // Sound timing
+  const minSoundInterval = 80;   // Minimum ms between ticks
+  const startDelay = 80;         // Initial ms between ticks
+  const endDelay = 320;          // Final ms between ticks
+  const totalTicks = 24;         // Number of sound ticks, tweak as needed
+
+  // Set all reels to starting position instantly
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
@@ -196,18 +204,40 @@ function doSpin() {
     }
   }
 
-  // All columns animate at once, but each takes longer to reach the top
+  // Animate reels
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
       const scrollDuration = baseScrollDuration + (col * stagger);
-      // Start all at the same time, but each has its own duration
       stack.style.transition = `transform ${scrollDuration}ms cubic-bezier(.25,.8,.5,1)`;
       stack.style.transform = `translateY(0px)`;
     }
   }
 
-  // Wait for the *last* column to finish before running checkWin
+  // SOUND & TICK LOOP
+  let tick = 0;
+  function tickSoundLoop() {
+    if (tick > totalTicks) return; // Stop when done
+
+    playSlotSound();
+
+    // Progress: 0 = start, 1 = end
+    const progress = tick / totalTicks;
+    // Ease out: delays get longer as spin progresses
+    const delay = Math.max(
+      startDelay + (endDelay - startDelay) * progress * progress, // quadratic ease
+      minSoundInterval
+    );
+
+    tick++;
+    if (tick <= totalTicks) {
+      setTimeout(tickSoundLoop, delay);
+    }
+  }
+
+  tickSoundLoop();
+
+  // Wait for the last column to finish before running checkWin
   const totalDuration = baseScrollDuration + ((columns - 1) * stagger);
   setTimeout(() => {
     checkWin();
@@ -215,6 +245,7 @@ function doSpin() {
     lostWagerSaver = false;
   }, totalDuration + 100);
 }
+
 
 // -----------------------------------------------------------------
 
