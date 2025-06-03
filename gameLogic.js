@@ -184,14 +184,12 @@ function doSpin() {
   const symbolHeight = 62;
   const baseScrollDuration = 1200; // ms
   const stagger = 300;             // ms
-  const columns = 3;
-  const rowCount = 3; // adjust if not global
 
   // Sound timing
-  const minSoundInterval = 80;   // Minimum ms between ticks
-  const startDelay = 80;         // Initial ms between ticks
-  const endDelay = 320;          // Final ms between ticks
-  const totalTicks = 24;         // Number of sound ticks, tweak as needed
+  const minSoundInterval = 150;   // Minimum ms between ticks
+  const startDelay = 150;         // Initial ms between ticks
+  const endDelay = 500;          // Final ms between ticks
+  const totalTicks = 9;         // Number of sound ticks, tweak as needed
 
   // Set all reels to starting position instantly
   for (let col = 0; col < columns; col++) {
@@ -216,24 +214,27 @@ function doSpin() {
 
   // SOUND & TICK LOOP
   let tick = 0;
-  function tickSoundLoop() {
-    if (tick > totalTicks) return; // Stop when done
+function tickSoundLoop() {
+  if (tick > totalTicks) return; // Stop when done
 
-    playSlotSound();
+  playSlotSound(.1, .1);
 
-    // Progress: 0 = start, 1 = end
-    const progress = tick / totalTicks;
-    // Ease out: delays get longer as spin progresses
-    const delay = Math.max(
-      startDelay + (endDelay - startDelay) * progress * progress, // quadratic ease
-      minSoundInterval
-    );
+  // Progress: 0 = start, 1 = end
+  const progress = tick / totalTicks;
+  // Ease out: delays get longer as spin progresses
+  const delay = Math.max(
+    startDelay + (endDelay - startDelay) * progress * progress,
+    minSoundInterval
+  );
 
-    tick++;
-    if (tick <= totalTicks) {
-      setTimeout(tickSoundLoop, delay);
-    }
+  tick++;
+  if (tick <= totalTicks) {
+    setTimeout(tickSoundLoop, delay);
+  } else {
+    // After the FINAL tick, stop the audio after the last delay
+    setTimeout(stopSlotSound, delay);
   }
+}
 
   tickSoundLoop();
 
