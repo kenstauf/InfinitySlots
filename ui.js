@@ -138,5 +138,13 @@ function showSpinInProgress() {
   btnDiv.style.display = "none";
   alertDiv.style.display = "block";
 }
+//---------------------------------
+//AUDIO FUNCTION
+
+function playSlotSound() {
+  const audio = document.getElementById("slotSound");
+  audio.currentTime = 0; // rewind to start
+  audio.play();
+}
 
 
