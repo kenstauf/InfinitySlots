@@ -337,6 +337,8 @@ function checkWin() {
       lostWagerSaver = false;
     }
   }
+  saveGame();
+  console.log("Saved game!")
 }
 
 
@@ -351,8 +353,6 @@ function spin() {
 
   //CLEAR ALERT BOX, SHOW SPIN IN PROGRESS TEXT
   showSpinInProgress();
-  saveGame();
-  console.log("Saved game!")
 
   //VALIDATE SPIN
   if (!validateSpin()) return;
