@@ -3,7 +3,8 @@ function saveGame() {
   const saveData = {
     coins: coins,
     rowCount: rowCount,
-    totalWinnings: totalWinnings
+    totalWinnings: totalWinnings,
+    rowCost: rowCost
   };
   localStorage.setItem("slotSaveData", JSON.stringify(saveData));
 }
@@ -15,6 +16,7 @@ function loadGame() {
     coins = save.coins;
     rowCount = save.rowCount;
     totalWinnings = save.totalWinnings;
+    rowCost = save.rowCost;
 
     updateStatsPanel();
     initReels();
