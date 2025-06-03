@@ -24,5 +24,6 @@ function loadGame() {
 
     updateStatsPanel();
     initReels();
+    document.getElementById("buyRowBtn").textContent = `Buy Row (${rowCost} coins)`;
   }
 }
