@@ -75,38 +75,41 @@ const rarityMultipliers = {
 };
 
 
-    let symbols = allFruits.slice(0, 5); // Start with 5 fruits
+const baseMinBet = 10;
+const rowCostIncrease = 20;
+const columns = 5;
 
-    let rowCost = 10;
-    let isSpinning = false;
-    let coins = 200;
-    let rowCount = 1;
-    let bet = 10;
-    let minorWin = .95; //TWO MATCHES
-    let majorWin = 2.5; //THREE MATCHES
-    let megaWin = 3.5; //FOUR MATCHES
-    let gigaWin = 6.5; //FIVE MATCHES
-    const baseMinBet = 10;
-    let minBet = baseMinBet;
-    const maxBet = 10000000000000;
-    let totalWinnings = 0;
-    const megaBonus = 300; // Flat mega bonus amount
-    let isWagerSaver = false;
-    const perRowMinBet = 10;
-    const rowCostIncrease = 20;
-    let count = 0;
-    const totalSpins = 8;
-    const slowspins = 4;
-    const verySlowSpins = 2;
-    let spinResult = [];
-    let perRowBet = bet / rowCount;
-    let lostWagerSaver = false;
-    const columns = 5;
-    let currentSpinMinorWins = 0;
-    let currentSpinMajorWins = 0;
-    let currentSpinMegaWins = 0;
-    let currentSpinGigaWins = 0;
-    let slotSoundVolume = 0.5; // 50% volume, adjust as needed (0.0 - 1.0)
+const gameState = {
+  symbols: allFruits.slice(0, 5), // Start with 5 fruits
+  rowCost: 10,
+  isSpinning: false,
+  coins: 200,
+  rowCount: 1,
+  bet: 10,
+  minorWin: 0.95, // TWO MATCHES
+  majorWin: 2.5,  // THREE MATCHES
+  megaWin: 3.5,   // FOUR MATCHES
+  gigaWin: 6.5,   // FIVE MATCHES
+  minBet: baseMinBet,
+  totalWinnings: 0,
+  isWagerSaver: false,
+  spinResult: [],
+  perRowBet: 10,
+  lostWagerSaver: false,
+  currentSpinMinorWins: 0,
+  currentSpinMajorWins: 0,
+  currentSpinMegaWins: 0,
+  currentSpinGigaWins: 0,
+  slotSoundVolume: 0.5
+};
+
+const maxBet = 10000000000000;
+const megaBonus = 300; // Flat mega bonus amount
+const perRowMinBet = 10;
+let count = 0;
+const totalSpins = 8;
+const slowspins = 4;
+const verySlowSpins = 2;
 
 
 function getFruitRarity(fruit) {

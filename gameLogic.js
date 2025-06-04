@@ -6,32 +6,32 @@ function calcMinBet(rowCount) {
 
 // -----------------------------------------------------------------
 
-    // RECALCULATE MINIMUM BET AND UPDATE
-    function recalculateMinBet() {
-      minBet = calcMinBet(rowCount);
-      if (bet < minBet) {
-        bet = minBet;
-        updateSpinButtonLabel();
-      }
-    }
+// RECALCULATE MINIMUM BET AND UPDATE
+function recalculateMinBet() {
+  gameState.minBet = calcMinBet(gameState.rowCount);
+  if (gameState.bet < gameState.minBet) {
+    gameState.bet = gameState.minBet;
+    updateSpinButtonLabel();
+  }
+}
 
 // -----------------------------------------------------------------
 
 // OFFER WAGER SAVER
 function offerWagerSaver() {
   // Guard: Block if player is not eligible
-  if (lostWagerSaver) {
+  if (gameState.lostWagerSaver) {
     showGameAlert("You are not eligible for a wager saver, earn more money to spin again!");
     return;
   }
 
-  if (coins > 0 && coins < minBet && !isSpinning) {
+  if (gameState.coins > 0 && gameState.coins < gameState.minBet && !gameState.isSpinning) {
     showGameConfirm(
-      `Wager Saver! You only have ${coins} coins, but the minimum bet is ${minBet}.\n Do you want to use your remaining coins for one last spin?`,
+      `Wager Saver! You only have ${gameState.coins} coins, but the minimum bet is ${gameState.minBet}.\n Do you want to use your remaining coins for one last spin?`,
       function yes() {
-        isWagerSaver = true;
-        coins = minBet; // give player extra coins for last spin
-        bet = minBet;   // ensure the entire minBet will be deducted for this spin
+        gameState.isWagerSaver = true;
+        gameState.coins = gameState.minBet; // give player extra coins for last spin
+        gameState.bet = gameState.minBet;   // ensure the entire minBet will be deducted for this spin
         updateCoinDisplay();
         spin();
       },
@@ -46,27 +46,27 @@ function offerWagerSaver() {
 // -----------------------------------------------------------------
 
 // BUY ROW FUNCTION
-    function buyRow() {
-  if (coins < rowCost) {
+function buyRow() {
+  if (gameState.coins < gameState.rowCost) {
     showGameAlert("Not enough coins to buy a new row!");
     return;
   }
 
-  coins -= rowCost;
-  rowCount++;
+  gameState.coins -= gameState.rowCost;
+  gameState.rowCount++;
 
   // UNLOCK NEW FRUIT every 3rd row if more fruits remain
-  if ((rowCount - 1) % 3 === 0 && symbols.length < allFruits.length) {
-    symbols.push(allFruits[symbols.length]);
+  if ((gameState.rowCount - 1) % 3 === 0 && gameState.symbols.length < allFruits.length) {
+    gameState.symbols.push(allFruits[gameState.symbols.length]);
   }
 
   // Increase costs
-  rowCost = Math.ceil(rowCost + rowCostIncrease + (rowCount / 3));
+  gameState.rowCost = Math.ceil(gameState.rowCost + rowCostIncrease + (gameState.rowCount / 3));
   updateCoinDisplay();
-  document.getElementById("buyRowBtn").textContent = `Buy Row (${rowCost} coins)`;
+  document.getElementById("buyRowBtn").textContent = `Buy Row (${gameState.rowCost} coins)`;
 
 document.querySelectorAll('.reels').forEach(col => {
-  col.style.setProperty('--rows', rowCount);
+  col.style.setProperty('--rows', gameState.rowCount);
 
   // Find the stack inside this column
   let stack = col.querySelector('.reels-stack');
@@ -87,11 +87,11 @@ document.querySelectorAll('.reels').forEach(col => {
 
 function buildWeightedFruitPool(totalSymbols) {
   // Filter current unlocked symbols by rarity
-  const commons = symbols.filter(fruit => commonFruits.includes(fruit));
-  const uncommons = symbols.filter(fruit => uncommonFruits.includes(fruit));
-  const rares = symbols.filter(fruit => rareFruits.includes(fruit));
-  const epics = symbols.filter(fruit => epicFruits.includes(fruit));
-  const legendaries = symbols.filter(fruit => legendaryFruits.includes(fruit));
+  const commons = gameState.symbols.filter(fruit => commonFruits.includes(fruit));
+  const uncommons = gameState.symbols.filter(fruit => uncommonFruits.includes(fruit));
+  const rares = gameState.symbols.filter(fruit => rareFruits.includes(fruit));
+  const epics = gameState.symbols.filter(fruit => epicFruits.includes(fruit));
+  const legendaries = gameState.symbols.filter(fruit => legendaryFruits.includes(fruit));
   
   // Tuning what percent each rarity should occupy
   let numCommon = Math.round(totalSymbols * 0.50);
@@ -126,17 +126,17 @@ function buildWeightedFruitPool(totalSymbols) {
 function validateSpin() {
 
   // If lostWagerSaver is true AND player doesn't have enough for minBet, block spinning
-  if (lostWagerSaver && coins < minBet) {
+  if (gameState.lostWagerSaver && gameState.coins < gameState.minBet) {
     showGameAlert("You need to earn more money before you spin again!");
     return false;
   }
-  if (isSpinning) return false;
-  if (isWagerSaver) return true;
+  if (gameState.isSpinning) return false;
+  if (gameState.isWagerSaver) return true;
 
-  if (coins < bet) {
-    if (coins > 0 && coins < minBet) {
+  if (gameState.coins < gameState.bet) {
+    if (gameState.coins > 0 && gameState.coins < gameState.minBet) {
       offerWagerSaver();
-    } else if (coins === 0) {
+    } else if (gameState.coins === 0) {
       showGameAlert("You need to earn more money before you spin again!");
     } else {
       showGameAlert("Not enough coins for this bet!");
@@ -162,16 +162,16 @@ function fillRows() {
     // Clear previous symbols
     stack.innerHTML = '';
 
-    // Fill with all symbols from spinResult[col]
-    for (let i = 0; i < spinResult[col].length; i++) {
+    // Fill with all symbols from gameState.spinResult[col]
+    for (let i = 0; i < gameState.spinResult[col].length; i++) {
       const span = document.createElement('span');
       span.className = 'symbol';
-      span.textContent = spinResult[col][i];
+      span.textContent = gameState.spinResult[col][i];
       stack.appendChild(span);
     }
 
     // Set visible window height
-    reel.style.setProperty('--rows', rowCount);
+    reel.style.setProperty('--rows', gameState.rowCount);
   }
 }
 
@@ -180,7 +180,7 @@ function fillRows() {
 
 //SPIN ANIMATION FUNCTION, CALLS CHECKWIN AFTER FINISHING
 function doSpin() {
-  const reelLength = spinResult[0].length;
+  const reelLength = gameState.spinResult[0].length;
   const symbolHeight = 62;
   const baseScrollDuration = 1200; // ms
   const stagger = 300;             // ms
@@ -195,7 +195,7 @@ function doSpin() {
   for (let col = 0; col < columns; col++) {
     const stack = document.querySelector(`#reel${col} .reels-stack`);
     if (stack) {
-      const maxOffset = (reelLength - rowCount) * symbolHeight;
+      const maxOffset = (reelLength - gameState.rowCount) * symbolHeight;
       stack.style.transition = 'none';
       stack.style.transform = `translateY(${-maxOffset}px)`;
       stack.offsetHeight; // force reflow
@@ -242,8 +242,8 @@ function tickSoundLoop() {
   const totalDuration = baseScrollDuration + ((columns - 1) * stagger);
   setTimeout(() => {
     checkWin();
-    isSpinning = false;
-    lostWagerSaver = false;
+    gameState.isSpinning = false;
+    gameState.lostWagerSaver = false;
   }, totalDuration + 100);
 }
 
@@ -253,7 +253,7 @@ function tickSoundLoop() {
 //CHECK PAYOUT FOR ANY GIVEN ROW
 
 function calculateRowPayout(symbols, rowIndex) {
-  perRowBet = bet / rowCount;
+  gameState.perRowBet = gameState.bet / gameState.rowCount;
   // Count occurrences
   const counts = {};
   for (const sym of symbols) counts[sym] = (counts[sym] || 0) + 1;
@@ -278,21 +278,21 @@ function calculateRowPayout(symbols, rowIndex) {
 
   // Highest to lowest: giga (5), mega (4), major (3), minor (2)
   if (maxCount === 5) {
-    payout = Math.floor(perRowBet * gigaWin * (rarityMultipliers[rarity] || 1));
+    payout = Math.floor(gameState.perRowBet * gameState.gigaWin * (rarityMultipliers[rarity] || 1));
     winType = "Giga";
-    currentSpinGigaWins++;
+    gameState.currentSpinGigaWins++;
   } else if (maxCount === 4) {
-    payout = Math.floor(perRowBet * megaWin * (rarityMultipliers[rarity] || 1));
+    payout = Math.floor(gameState.perRowBet * gameState.megaWin * (rarityMultipliers[rarity] || 1));
     winType = "Mega";
-    currentSpinMegaWins++;
+    gameState.currentSpinMegaWins++;
   } else if (maxCount === 3) {
-    payout = Math.floor(perRowBet * majorWin * (rarityMultipliers[rarity] || 1));
+    payout = Math.floor(gameState.perRowBet * gameState.majorWin * (rarityMultipliers[rarity] || 1));
     winType = "Major";
-    currentSpinMajorWins++;
+    gameState.currentSpinMajorWins++;
   } else if (maxCount === 2) {
-    payout = Math.floor(perRowBet * minorWin * (rarityMultipliers[rarity] || 1));
+    payout = Math.floor(gameState.perRowBet * gameState.minorWin * (rarityMultipliers[rarity] || 1));
     winType = "Minor";
-    currentSpinMinorWins++;
+    gameState.currentSpinMinorWins++;
   }
   // No win (all different): payout remains 0
 
@@ -312,15 +312,15 @@ function checkWin() {
   let visibleSymbols = [];
 
   // Extract the currently displayed symbols (top to bottom)
-  for (let row = 0; row < rowCount; row++) {
+  for (let row = 0; row < gameState.rowCount; row++) {
     visibleSymbols[row] = [];
     for (let col = 0; col < columns; col++) {
-      visibleSymbols[row][col] = spinResult[col][row];
+      visibleSymbols[row][col] = gameState.spinResult[col][row];
     }
   }
 
   // Loop through each row and calculate payouts
-  for (let row = 0; row < rowCount; row++) {
+  for (let row = 0; row < gameState.rowCount; row++) {
     const rowSymbols = visibleSymbols[row];
     console.log(`Row ${row + 1}:`, rowSymbols);
     let rowPayout = calculateRowPayout(rowSymbols, row);
@@ -328,45 +328,45 @@ function checkWin() {
   }
 
   // Handle payout
-  if (isWagerSaver) {
-    if (totalWin > minBet) {
-      coins += totalWin;
-      totalWinnings += totalWin;
+  if (gameState.isWagerSaver) {
+    if (totalWin > gameState.minBet) {
+      gameState.coins += totalWin;
+      gameState.totalWinnings += totalWin;
       updateStatsPanel();
       updateCoinDisplay();
 
       // Show user total winnings, as well as major and minor win count
       let resultMsg = `
-        Minor Wins: ${currentSpinMinorWins}<br>
-        Major Wins: ${currentSpinMajorWins}<br>
-        Mega Wins: ${currentSpinMegaWins}<br>
-        Giga Wins: ${currentSpinGigaWins}<br>
+        Minor Wins: ${gameState.currentSpinMinorWins}<br>
+        Major Wins: ${gameState.currentSpinMajorWins}<br>
+        Mega Wins: ${gameState.currentSpinMegaWins}<br>
+        Giga Wins: ${gameState.currentSpinGigaWins}<br>
         You won ${totalWin} coins!`;
       showGameAlert(resultMsg.trim());
 
-      isWagerSaver = false;
-      lostWagerSaver = false;
+      gameState.isWagerSaver = false;
+      gameState.lostWagerSaver = false;
 
     } else {
       showGameAlert("You didn't win enough on your Wager Saver spin, go earn some more money!");
-      isWagerSaver = false;
-      lostWagerSaver = true;
+      gameState.isWagerSaver = false;
+      gameState.lostWagerSaver = true;
     }
   } else {
     if (totalWin > 0) {
-      coins += totalWin;
-      totalWinnings += totalWin;
+      gameState.coins += totalWin;
+      gameState.totalWinnings += totalWin;
       updateStatsPanel();
       updateCoinDisplay();
       // Show user total winnings, as well as major and minor win count
       let resultMsg = `
-        Minor Wins: ${currentSpinMinorWins}<br>
-        Major Wins: ${currentSpinMajorWins}<br>
-        Mega Wins: ${currentSpinMegaWins}<br>
-        Giga Wins: ${currentSpinGigaWins}<br>
+        Minor Wins: ${gameState.currentSpinMinorWins}<br>
+        Major Wins: ${gameState.currentSpinMajorWins}<br>
+        Mega Wins: ${gameState.currentSpinMegaWins}<br>
+        Giga Wins: ${gameState.currentSpinGigaWins}<br>
         You won ${totalWin} coins!`;
       showGameAlert(resultMsg.trim());
-      lostWagerSaver = false;
+      gameState.lostWagerSaver = false;
     }
   }
   saveGame();
@@ -380,8 +380,8 @@ function checkWin() {
 // SPIN FUNCTION
 function spin() {
   // Constants
-  const rowAnimationRows = Math.floor(rowCount / 3) + 30;
-  const reelLength = rowCount + rowAnimationRows;
+  const rowAnimationRows = Math.floor(gameState.rowCount / 3) + 30;
+  const reelLength = gameState.rowCount + rowAnimationRows;
 
   //CLEAR ALERT BOX, SHOW SPIN IN PROGRESS TEXT
   showSpinInProgress();
@@ -391,25 +391,25 @@ function spin() {
   
 
   //DEDUCT COINS
-  coins -= bet;
+  gameState.coins -= gameState.bet;
   updateCoinDisplay();
-  isSpinning = true;
-  currentSpinMinorWins = 0;
-  currentSpinMajorWins = 0;
-  currentSpinMegaWins = 0;
-  currentSpinGigaWins = 0;
+  gameState.isSpinning = true;
+  gameState.currentSpinMinorWins = 0;
+  gameState.currentSpinMajorWins = 0;
+  gameState.currentSpinMegaWins = 0;
+  gameState.currentSpinGigaWins = 0;
 
   // Build a weighted pool of fruits, using your helper function
   const fruitPool = buildWeightedFruitPool(reelLength);
 
   // Create the spin result array (columns x reelLength)
-  // This will look like: spinResult[col][pos]
-  spinResult = [];
+  // This will look like: gameState.spinResult[col][pos]
+  gameState.spinResult = [];
   for (let col = 0; col < columns; col++) {
-    spinResult[col] = [];
+    gameState.spinResult[col] = [];
     for (let pos = 0; pos < reelLength; pos++) {
       // Pick a random fruit from the weighted pool
-      spinResult[col][pos] = fruitPool[Math.floor(Math.random() * fruitPool.length)];
+      gameState.spinResult[col][pos] = fruitPool[Math.floor(Math.random() * fruitPool.length)];
     }
   }
 

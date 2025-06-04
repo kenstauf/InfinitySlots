@@ -1,29 +1,16 @@
 //save logic here
 function saveGame() {
-  const saveData = {
-    coins: coins,
-    rowCount: rowCount,
-    totalWinnings: totalWinnings,
-    rowCost: rowCost,
-    bet: bet,
-    minBet: minBet
-  };
-  localStorage.setItem("slotSaveData", JSON.stringify(saveData));
+  localStorage.setItem("slotSaveData", JSON.stringify(gameState));
 }
 //----------------------
 //load logic here
 function loadGame() {
   const save = JSON.parse(localStorage.getItem("slotSaveData"));
   if (save) {
-    coins = save.coins;
-    rowCount = save.rowCount;
-    totalWinnings = save.totalWinnings;
-    rowCost = save.rowCost;
-    minBet = save.minBet;
-    bet = save.bet;
+    Object.assign(gameState, save);
 
     updateStatsPanel();
     initReels();
-    document.getElementById("buyRowBtn").textContent = `Buy Row (${rowCost} coins)`;
+    document.getElementById("buyRowBtn").textContent = `Buy Row (${gameState.rowCost} coins)`;
   }
 }
