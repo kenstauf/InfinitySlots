@@ -1,22 +1,22 @@
     // UPDATING STATS PANEL
     function updateStatsPanel() {
-      document.getElementById("statRows").textContent = rowCount;
-      document.getElementById("statWinnings").textContent = totalWinnings;
-      document.getElementById("unlockedFruits").innerHTML = symbols.join(' ');
+      document.getElementById("statRows").textContent = gameState.rowCount;
+      document.getElementById("statWinnings").textContent = gameState.totalWinnings;
+      document.getElementById("unlockedFruits").innerHTML = gameState.symbols.join(' ');
     }
 
 // ------------------------------------------------------
 
     // SET COINS AND UPDATE COINS
     function updateCoinDisplay() {
-      document.getElementById("coinCount").textContent = coins;
+      document.getElementById("coinCount").textContent = gameState.coins;
     }
 
 // ------------------------------------------------------
 
     // ADJUSTING THE BET
     function updateSpinButtonLabel() {
-      document.getElementById("spinButton").textContent = `Spin (Bet: ${bet})`;
+      document.getElementById("spinButton").textContent = `Spin (Bet: ${gameState.bet})`;
     }
 
 // ------------------------------------------------------
@@ -35,7 +35,7 @@ function initReels() {
     stack.className = "reels-stack";
 
     // Fill with initial "❓" symbols for each rowCount
-    for (let row = 0; row < rowCount; row++) {
+    for (let row = 0; row < gameState.rowCount; row++) {
       const span = document.createElement("span");
       span.className = "symbol";
       span.textContent = "❓";
@@ -45,7 +45,7 @@ function initReels() {
     reel.appendChild(stack);
     container.appendChild(reel);
     // Set CSS variable for initial row count
-    reel.style.setProperty('--rows', rowCount);
+    reel.style.setProperty('--rows', gameState.rowCount);
   }
 }
 
@@ -63,20 +63,20 @@ function initReels() {
 
 function increaseBet(amount = 1) {
   // If not enough coins for minBet, force bet to minBet and do nothing else
-  if (coins < minBet) {
-    bet = minBet;
+  if (gameState.coins < gameState.minBet) {
+    gameState.bet = gameState.minBet;
   } else {
-    bet = Math.min(Math.max(bet + amount, minBet), coins);
+    gameState.bet = Math.min(Math.max(gameState.bet + amount, gameState.minBet), gameState.coins);
   }
   updateSpinButtonLabel();
 }
 
 function decreaseBet(amount = 1) {
   // If not enough coins for minBet, force bet to minBet and do nothing else
-  if (coins < minBet) {
-    bet = minBet;
+  if (gameState.coins < gameState.minBet) {
+    gameState.bet = gameState.minBet;
   } else {
-    bet = Math.min(Math.max(bet - amount, minBet), coins);
+    gameState.bet = Math.min(Math.max(gameState.bet - amount, gameState.minBet), gameState.coins);
   }
   updateSpinButtonLabel();
 }

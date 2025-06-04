@@ -23,7 +23,7 @@ function clickFreeMoneyBtn(tier) {
   if (button) button.disabled = true;
 
   setTimeout(() => {
-    coins += tierButtonEarnings[tier]; // Add coins for that tier!
+    gameState.coins += tierButtonEarnings[tier]; // Add coins for that tier!
     updateCoinDisplay();
 
     checkForMinBet();
@@ -39,8 +39,8 @@ function clickFreeMoneyBtn(tier) {
 //-----------------------------------------
 
 function checkForMinBet() {
-  if (coins >= minBet) {
-    lostWagerSaver = false;
+  if (gameState.coins >= gameState.minBet) {
+    gameState.lostWagerSaver = false;
   }
 }
 
