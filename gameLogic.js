@@ -212,32 +212,6 @@ function doSpin() {
     }
   }
 
-  // SOUND & TICK LOOP
-  let tick = 0;
-function tickSoundLoop() {
-  if (tick > totalTicks) return; // Stop when done
-
-  playSlotSound(.1, .1);
-
-  // Progress: 0 = start, 1 = end
-  const progress = tick / totalTicks;
-  // Ease out: delays get longer as spin progresses
-  const delay = Math.max(
-    startDelay + (endDelay - startDelay) * progress * progress,
-    minSoundInterval
-  );
-
-  tick++;
-  if (tick <= totalTicks) {
-    setTimeout(tickSoundLoop, delay);
-  } else {
-    // After the FINAL tick, stop the audio after the last delay
-    setTimeout(stopSlotSound, delay);
-  }
-}
-
-  tickSoundLoop();
-
   // Wait for the last column to finish before running checkWin
   const totalDuration = baseScrollDuration + ((columns - 1) * stagger);
   setTimeout(() => {
